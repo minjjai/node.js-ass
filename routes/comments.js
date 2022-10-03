@@ -11,8 +11,10 @@ const router = express.Router();
 // 댓글 생성 POST ( ex) localhost:3000/api/comments/받아오려는 id값 )
 router.post("/comments/:_postsId", async (req, res) => {
     const { user, password, content } = req.body;
+    const { _postsId } = req.params
     
     await Comment.create({
+        postsId: _postsId,
         user: user,
         password: password,
         content: content
