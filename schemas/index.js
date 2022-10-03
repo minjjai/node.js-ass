@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 // localhost:27017를 지우고 127.0.0.1을 넣으세요 ex) mongodb://127.0.0.1//하고자하는 이름
 const connect = () => {
   mongoose
-    .connect("mongodb://localhost:27017/aaa")
+    .connect("mongodb://127.0.0.1/aaa")
     .catch(err => console.log(err));
 };
 
