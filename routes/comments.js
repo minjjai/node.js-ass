@@ -9,7 +9,7 @@ const Comment = require("../schemas/comment");
 const router = express.Router();
 
 // 댓글 생성 POST ( ex) localhost:3000/api/comments/받아오려는 id값 )
-router.post("/comments", async (req, res) => {
+router.post("/comments/:_postsId", async (req, res) => {
     const { user, password, content } = req.body;
     
     await Comment.create({
@@ -22,7 +22,7 @@ router.post("/comments", async (req, res) => {
 });
 
 // 댓글을 목록 보기 GET ( ex) localhost:3000/api/comments/받아오려는 id값 )
-router.get("/comments/:_commentId", async (req, res) => {
+router.get("/comments/:_postsId", async (req, res) => {
 
     const commentAll = await Comment.find().sort({Date: -1});
     const comments = commentAll.map((com) => {
@@ -38,7 +38,7 @@ router.get("/comments/:_commentId", async (req, res) => {
 });
 
 // 댓글 수정 : /comments/:_commentId PUT
-router.put("/comments/:_commentId", async (req, res) => {
+router.put("/comments/:_postsId", async (req, res) => {
     const {_commentId} = req.params
     const { password, content } = req.body
 
@@ -56,7 +56,7 @@ router.put("/comments/:_commentId", async (req, res) => {
 
 
 // 댓글 삭제 : /comments/:_commentId DELETE
-router.delete("/comments/:_commentId", async (req, res) => {
+router.delete("/comments/:_postsId", async (req, res) => {
     const {_commentId} = req.params;
     const {password} = req.body
 
