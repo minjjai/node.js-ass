@@ -1,11 +1,7 @@
-// express 연결을 위한 코드
-const { json } = require("body-parser");
 const express = require("express");
-// 라우터 연결을 위한 코드
 const router = express.Router();
-
-// 스키마에서 뼈대를 불러올 코드
 const Posts = require("../schemas/post.js");
+
 router.post("/posts", async (req, res) => {
     const { user, password, title, content } = req.body;
     
@@ -22,6 +18,7 @@ router.post("/posts", async (req, res) => {
 // 게시글 조회 GET ( ex) localhost:3000/api/posts )
 router.get("/posts", async (req, res) => {
         const postAll = await Posts.find().sort({Date: -1});
+       console.log(postAll);
         const posts = postAll.map((post) => {
             return{
                 user: post.user,
@@ -41,6 +38,10 @@ router.get("/posts/:_postsId", async (req, res) => {
     const {_postsId} = req.params
 
     const posts = await Posts.find({_id: _postsId});
+    //findOne
+    // const {user, password, title, content, Date} = posts
+    // const post = { postId, user, password, title, content, Date}
+    // res.json({post})
 
     const post = posts.map((post) => {
         return{
@@ -52,7 +53,7 @@ router.get("/posts/:_postsId", async (req, res) => {
             Date: post.Date
         };
     })
- res.json({post})
+    res.json({post})
 });
 
     // 게시글 수정 PUT ( ex) localhost:3000/api/posts/postid값 )
@@ -62,7 +63,7 @@ router.put("/posts/:_postsId", async (req, res) => {
 
     const posts = await Posts.find({_id: _postsId});
 
-    if( posts[0].password == password ){
+    if( posts[0].password === password ){
         await Posts.updateOne( {_id: _postsId}, {$set: {user, password, title, content}});
     } // updateOne( 바꿀데이터, 수정한 내용 )
     else { 
@@ -78,7 +79,7 @@ router.delete("/posts/:_postsId", async (req, res) => {
     const {password} = req.body
 
     const posts = await Posts.find({_id: _postsId});
-    if( posts[0].password == password){
+    if( posts[0].password === password){
         await Posts.deleteOne({_id: _postsId});
     }
     else{
